@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from './CartSlice';
+import { removeItem, updateQuantity, addItem } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
@@ -29,7 +29,7 @@ const CartItem = ({ onContinueShopping }) => {
     alert('Functionality to be added for future reference');
   };
 
-  // ➕ INCREMENT
+  // ➕ INCREMENT (uses updateQuantity)
   const handleIncrement = (item) => {
     dispatch(updateQuantity({
       name: item.name,
@@ -37,7 +37,7 @@ const CartItem = ({ onContinueShopping }) => {
     }));
   };
 
-  // ➖ DECREMENT
+  // ➖ DECREMENT (uses updateQuantity / removeItem)
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
       dispatch(updateQuantity({
@@ -49,9 +49,14 @@ const CartItem = ({ onContinueShopping }) => {
     }
   };
 
-  // ❌ REMOVE ITEM
+  // ❌ REMOVE ITEM (TASK REQUIREMENT)
   const handleRemove = (item) => {
     dispatch(removeItem(item.name));
+  };
+
+  // ➕ ADD ITEM (TASK REQUIREMENT)
+  const handleAddItem = (item) => {
+    dispatch(addItem(item));
   };
 
   // 💰 ITEM SUBTOTAL
@@ -121,6 +126,14 @@ const CartItem = ({ onContinueShopping }) => {
                 onClick={() => handleRemove(item)}
               >
                 Delete
+              </button>
+
+              {/* ADD ITEM (TASK REQUIREMENT) */}
+              <button
+                className="cart-item-add"
+                onClick={() => handleAddItem(item)}
+              >
+                Add
               </button>
 
             </div>
