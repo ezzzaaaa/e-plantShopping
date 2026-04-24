@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addItem } from "../CartSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { addItem } from "./CartSlice";
 import "./ProductList.css";
 import CartItem from "./CartItem";
 
 function ProductList({ onHomeClick }) {
 
+    // ✅ Redux setup (TASK REQUIREMENT)
     const dispatch = useDispatch();
+    const cartItems = useSelector((state) => state.cart.items);
 
     const [addedToCart, setAddedToCart] = useState({});
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false);
+
+    // ✅ REQUIRED FUNCTION (TASK 4)
+    const calculateTotalQuantity = () => {
+        return cartItems
+            ? cartItems.reduce((total, item) => total + item.quantity, 0)
+            : 0;
+    };
 
     // ✅ Add to Cart Function
     const handleAddToCart = (product) => {
@@ -85,9 +94,17 @@ function ProductList({ onHomeClick }) {
 
             {/* ✅ NAVBAR */}
             <div className="navbar">
-                <a href="/" onClick={handleHomeClick}>Paradise Nursery</a>
-                <a href="#" onClick={handlePlantsClick}>Plants</a>
-                <a href="#" onClick={handleCartClick}>Cart</a>
+                <a href="/" onClick={handleHomeClick}>
+                    Paradise Nursery
+                </a>
+
+                <a href="#" onClick={handlePlantsClick}>
+                    Plants
+                </a>
+
+                <a href="#" onClick={handleCartClick}>
+                    Cart ({calculateTotalQuantity()})
+                </a>
             </div>
 
             {/* ✅ PRODUCT GRID */}
